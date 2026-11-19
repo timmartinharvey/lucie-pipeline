@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lucie's Idea Pipeline</title>
+<meta name="theme-color" content="#9A2C58">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F6F3F6;--surface:#FFFFFF;--sunk:#ECE6EC;--ink:#221A24;--muted:#675B69;--line:#DDD3DD;--accent:#9A2C58;--accent-ink:#7A1F45;--accent-soft:#F6E1EA;--sage:#3F6E57;--sage-soft:#DDEDE3;--sky:#2F5F8A;--sky-soft:#DDE8F3;--amber:#8A5A12;--amber-soft:#F5E9D3;--display:"Young Serif",Georgia,"Times New Roman",serif;--body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#161117;--surface:#201922;--sunk:#2A222C;--ink:#F0E8F0;--muted:#B3A5B5;--line:#3A303C;--accent:#E07AA3;--accent-ink:#F2A9C6;--accent-soft:#3D1B2A;--sage:#86C3A2;--sage-soft:#1C3328;--sky:#8DB9E2;--sky-soft:#18293A;--amber:#E6B866;--amber-soft:#3A2C14}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#161117;--surface:#201922;--sunk:#2A222C;--ink:#F0E8F0;--muted:#B3A5B5;--line:#3A303C;--accent:#E07AA3;--accent-ink:#F2A9C6;--accent-soft:#3D1B2A;--sage:#86C3A2;--sage-soft:#1C3328;--sky:#8DB9E2;--sky-soft:#18293A;--amber:#E6B866;--amber-soft:#3A2C14}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.55;padding:28px max(16px,env(safe-area-inset-right)) 72px max(16px,env(safe-area-inset-left))}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:40px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(2.1rem,6vw,3.1rem);letter-spacing:-.01em}h2{font-size:1.55rem}h3{font-size:1.1rem}
+p{margin:0;max-width:68ch}a{color:var(--sky)}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.muted{color:var(--muted)}.small{font-size:.88rem}
+section{display:grid;gap:14px;min-width:0}header{display:grid;gap:14px}
+.handles{display:flex;flex-wrap:wrap;gap:8px}
+.handle{font-family:var(--mono);font-size:.8rem;background:var(--accent-soft);color:var(--accent-ink);padding:4px 10px;border-radius:6px;text-decoration:none}
+.toolbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tab{font:500 .82rem var(--body);background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:5px 12px;cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab .n{font-family:var(--mono);font-size:.75rem;opacity:.75;margin-left:4px}
+label{font-size:.82rem;font-weight:600;color:var(--muted)}
+input,select,textarea{font:inherit;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 11px;width:100%}
+select.inline{width:auto;padding:6px 9px}
+textarea{min-height:76px;resize:vertical}
+:focus-visible{outline:2px solid var(--sky);outline-offset:1px}
+.ideas{display:grid;gap:10px}
+.idea{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.idea>summary{list-style:none;cursor:pointer;padding:14px 16px;display:grid;grid-template-columns:54px 1fr auto;gap:14px;align-items:start}
+.idea>summary::-webkit-details-marker{display:none}
+.score{font-family:var(--display);font-size:1.6rem;text-align:center;line-height:1;padding-top:2px}
+.score small{display:block;font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.08em;margin-top:5px}
+.score.hi{color:var(--sage)}.score.mid{color:var(--amber)}.score.lo{color:var(--muted)}
+.it{display:grid;gap:6px;min-width:0}.meta{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.tag.src{background:var(--sky-soft);color:var(--sky)}.tag.fmt{background:var(--accent-soft);color:var(--accent-ink)}
+.tag.pil{background:var(--sage-soft);color:var(--sage)}.tag.plat{background:var(--amber-soft);color:var(--amber)}
+.tag.newwk{background:var(--accent);color:var(--surface)}
+.tag.st-shortlist{background:var(--sky-soft);color:var(--sky)}.tag.st-planned{background:var(--amber-soft);color:var(--amber)}
+.tag.st-filmed,.tag.st-published{background:var(--sage-soft);color:var(--sage)}
+.signal{font-size:.88rem;color:var(--muted)}
+.ibody{border-top:1px solid var(--line);padding:16px;display:grid;gap:16px}
+.mover{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--sunk);border-radius:10px;padding:10px 12px}
+.mover .lbl{font-size:.82rem;font-weight:600;color:var(--muted);margin-right:4px}
+.sbtn{font:600 .82rem var(--body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.sbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.sbtn:disabled{opacity:.55;cursor:default}
+.mover .saved{font-size:.8rem;color:var(--muted)}
+.two{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.blk{display:grid;gap:6px;align-content:start;min-width:0}
+.blk>.k{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
+.hook{font-family:var(--display);font-size:1.05rem;background:var(--accent-soft);padding:12px 14px;border-radius:8px}
+.beats{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.beat{display:grid;grid-template-columns:54px 1fr;gap:8px;padding:7px 10px;border-bottom:1px solid var(--line);font-size:.9rem}
+.beat:last-child{border-bottom:0}.beat .t{font-family:var(--mono);font-size:.8rem;color:var(--sky)}
+ul.plain{margin:0;padding-left:18px;display:grid;gap:4px;font-size:.92rem}
+.bars{display:grid;gap:5px;font-size:.8rem}
+.bar{display:grid;grid-template-columns:62px 1fr 26px;gap:8px;align-items:center}
+.bar .track{height:6px;background:var(--sunk);border-radius:3px;overflow:hidden}
+.bar .fill{height:100%;background:var(--accent);display:block}
+.bar .v{font-family:var(--mono);text-align:right;color:var(--muted)}
+.caption{font-size:.92rem;background:var(--sunk);border-radius:8px;padding:10px 12px;white-space:pre-wrap}
+.copy{justify-self:start}
+.empty{padding:28px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:12px}
+.run{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;display:grid;gap:6px}
+form.drop,.keybox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px}
+.fields{display:grid;gap:10px;grid-template-columns:180px 1fr}.fields .wide{grid-column:1/-1}
+.fields label{display:grid;gap:4px}
+.formrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.primary{font:600 .9rem var(--body);background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 16px;cursor:pointer}
+.primary:disabled{opacity:.5;cursor:default}
+.ghost{font:600 .82rem var(--body);background:transparent;color:var(--accent-ink);border:1px solid var(--accent);border-radius:8px;padding:7px 12px;cursor:pointer}
+.status-msg{font-size:.85rem;color:var(--muted)}
+.banner{background:var(--amber-soft);border-radius:10px;padding:10px 14px;font-size:.9rem;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.inb{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:4px;font-size:.9rem}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.88rem;max-width:90vw;z-index:9}
+@media (max-width:600px){.fields{grid-template-columns:1fr}.idea>summary{grid-template-columns:44px 1fr}.idea>summary .statewrap{grid-column:2}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <span class="eyebrow">Content funnel</span>
+  <h1>Lucie's Idea Pipeline</h1>
+  <p class="muted">New ready-to-film ideas land every Monday evening. Open one for the hooks, shot list and caption, then tap Shortlist, Planned, Filmed, Posted or Park. Your choices save here and steer next week's ideas.</p>
+  <div class="handles"><span class="handle">TikTok @lucie.rebecca</span><span class="handle">Instagram @lucie.sanderson</span></div>
+  <div class="banner" id="keyBanner" hidden><span>This device can view but not save yet. Add the save key once and taps will be remembered.</span><a class="ghost" href="#settings" style="text-decoration:none">Add save key</a></div>
+</header>
+
+<section><h2>Latest run</h2><div id="runs"><div class="empty">Loading.</div></div></section>
+
+<section id="ideasSec">
+  <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline"><h2>Ideas</h2><span class="muted small" id="count"></span></div>
+  <p class="muted small">Score out of 100: trend 30%, fit 30%, ease 20%, money 20%.</p>
+  <div class="toolbar" id="tabs" role="group" aria-label="Filter by status"></div>
+  <div class="toolbar"><label for="pillarSel">Pillar</label>
+    <select id="pillarSel" class="inline"><option value="">All pillars</option><option>Who I am now</option><option>Postpartum, honestly</option><option>Real life</option><option>New town, new friends</option><option>Learning to drive</option></select></div>
+  <div class="ideas" id="ideas"><div class="empty">Loading ideas.</div></div>
+</section>
+
+<section id="drop">
+  <h2>Drop an idea <span class="muted" style="font-family:var(--body);font-size:.9rem">(optional)</span></h2>
+  <p class="muted small">Seen something good? Add it here and Monday's run will turn it into a full plan.</p>
+  <form class="drop" id="dropForm">
+    <div class="fields">
+      <label for="dSource">Where from
+        <select id="dSource"><option value="tiktok">TikTok</option><option value="instagram">Instagram</option><option value="mumsnet">Mumsnet</option><option value="youtube">YouTube</option><option value="brand">A brand or product</option><option value="own">Lucie's own idea</option><option value="other">Other</option></select></label>
+      <label for="dLink">Link (optional)<input id="dLink" type="url" placeholder="https://www.tiktok.com/@creator/video/..."></label>
+      <label class="wide" for="dNote">What caught your eye<textarea id="dNote" placeholder="A creator's video you loved, a sound everyone is using, something that happened today."></textarea></label>
+    </div>
+    <div class="formrow"><button class="primary" type="submit" id="dBtn">Add to next run</button><span class="status-msg" id="dMsg" role="status"></span></div>
+  </form>
+  <div id="inbox" style="display:grid;gap:8px"></div>
+</section>
+
+<section id="settings">
+  <h2>Save key</h2>
+  <div class="keybox">
+    <p class="small muted">Saving uses a GitHub key that Tim makes. Paste it once on each phone or browser; it stays on this device only.</p>
+    <label for="keyIn" style="display:grid;gap:4px">GitHub key<input id="keyIn" type="password" autocomplete="off" placeholder="github_pat_..."></label>
+    <div class="formrow"><button class="primary" type="button" id="keySave">Save key</button><button class="ghost" type="button" id="keyClear">Remove from this device</button><span class="status-msg" id="keyMsg" role="status"></span></div>
+  </div>
+</section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* Where the data lives. On GitHub Pages this is worked out from the address. */
+var CONFIG = { owner: "", repo: "", branch: "main" };
+(function(){
+  var h = location.hostname, m = h.match(/^([^.]+)\.github\.io$/i);
+  if (!CONFIG.owner && m) CONFIG.owner = m[1];
+  if (!CONFIG.repo && m) { var seg = location.pathname.split("/").filter(Boolean)[0]; CONFIG.repo = seg || (m[1] + ".github.io"); }
+})();
+
+var STATUSES=[["new","New"],["shortlist","Shortlist"],["planned","Planned"],["filmed","Filmed"],["published","Posted"],["parked","Park"]];
+var SLABEL={new:"New",shortlist:"Shortlist",planned:"Planned",filmed:"Filmed",published:"Posted",parked:"Parked"};
+var SRC={tiktok:"TikTok",instagram:"Instagram",mumsnet:"Mumsnet",youtube:"YouTube",brand:"Brand",own:"Lucie's idea",search:"Search demand",news:"News",seasonal:"Seasonal",starter:"Starter idea",other:"Other"};
+var ideas=[], statuses={}, inbox=[], runs=[], week="", filter="active", pillarF="";
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function list(a){return '<ul class="plain">'+a.map(function(s){return "<li>"+esc(s)+"</li>"}).join("")+"</ul>"}
+function toast(t){var el=$("toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){el.hidden=true},3200)}
+
+/* key storage (this device only) */
+function getKey(){try{return localStorage.getItem("lp_key")||""}catch(e){return ""}}
+function setKey(k){try{k?localStorage.setItem("lp_key",k):localStorage.removeItem("lp_key");return true}catch(e){return false}}
+var memKey="";
+function key(){return getKey()||memKey}
+
+/* GitHub file helpers */
+function api(path){return "https://api.github.com/repos/"+CONFIG.owner+"/"+CONFIG.repo+"/contents/"+path}
+function hdrs(extra){var h={"Accept":"application/vnd.github+json"};var k=key();if(k)h.Authorization="Bearer "+k;for(var x in extra)h[x]=extra[x];return h}
+function b64dec(s){var bin=atob(s.replace(/\n/g,""));var bytes=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes)}
+function b64enc(str){var bytes=new TextEncoder().encode(str),bin="";for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin)}
+async function readJSON(path, fallback){
+  if(CONFIG.owner){
+    try{var r=await fetch(api(path)+"?ref="+CONFIG.branch+"&t="+Date.now(),{headers:hdrs({"Accept":"application/vnd.github.raw+json"}),cache:"no-store"});
+      if(r.ok)return await r.json();}catch(e){}
+  }
+  try{var r2=await fetch(path+"?t="+Date.now(),{cache:"no-store"});if(r2.ok)return await r2.json()}catch(e){}
+  return fallback;
+}
+async function writeJSON(path, mutate, message){
+  if(!key())throw {code:"nokey"};
+  for(var attempt=0;attempt<4;attempt++){
+    var r=await fetch(api(path)+"?ref="+CONFIG.branch+"&t="+Date.now(),{headers:hdrs(),cache:"no-store"});
+    if(r.status===401||r.status===403)throw {code:"badkey"};
+    var cur=null, sha;
+    if(r.ok){var j=await r.json();sha=j.sha;cur=JSON.parse(b64dec(j.content))}
+    var next=mutate(cur);
+    var body={message:message,content:b64enc(JSON.stringify(next,null,1)+"\n"),branch:CONFIG.branch};if(sha)body.sha=sha;
+    var w=await fetch(api(path),{method:"PUT",headers:hdrs({"Content-Type":"application/json"}),body:JSON.stringify(body)});
+    if(w.ok)return next;
+    if(w.status===401||w.status===403)throw {code:"badkey"};
+    if(w.status!==409&&w.status!==422)throw {code:"http",status:w.status};
+    await new Promise(function(res){setTimeout(res,400*(attempt+1))});
+  }
+  throw {code:"conflict"};
+}
+
+function statusOf(i){var s=statuses[i.id];return (s&&s.status)||i.status||"new"}
+function scoreClass(s){return s>=70?"hi":s>=50?"mid":"lo"}
+function bars(p){if(!p)return"";return '<div class="bars">'+[["Trend","trend"],["Fit","fit"],["Ease","ease"],["Money","money"]].map(function(x){var v=p[x[1]];return '<div class="bar"><span>'+x[0]+'</span><span class="track"><span class="fill" style="width:'+Math.max(0,Math.min(100,(v||0)*10))+'%"></span></span><span class="v">'+(v==null?"-":v)+"</span></div>"}).join("")+"</div>"}
+
+function renderTabs(){
+  var c={};ideas.forEach(function(i){var s=statusOf(i);c[s]=(c[s]||0)+1});
+  var active=ideas.filter(function(i){var s=statusOf(i);return s!=="published"&&s!=="parked"}).length;
+  var wk=ideas.filter(function(i){return i.runId===week}).length;
+  var opts=[["active","Active",active],["week","New this week",wk]].concat(STATUSES.map(function(x){return [x[0],SLABEL[x[0]],c[x[0]]||0]})).concat([["all","All",ideas.length]]);
+  $("tabs").innerHTML=opts.map(function(o){return '<button class="tab" type="button" data-f="'+o[0]+'" aria-pressed="'+(filter===o[0])+'">'+o[1]+'<span class="n">'+o[2]+"</span></button>"}).join("");
+}
+function card(i){
+  var st=statusOf(i), canSave=!!key(), when=statuses[i.id]&&statuses[i.id].at;
+  var tags='<span class="tag src">'+esc(SRC[i.source]||i.source)+"</span>"+(i.pillar?'<span class="tag pil">'+esc(i.pillar)+"</span>":"")+(i.format?'<span class="tag fmt">'+esc(i.format)+"</span>":"")+(i.platforms?'<span class="tag plat">'+esc(i.platforms)+"</span>":"")+(i.series?'<span class="tag">'+esc(i.series)+"</span>":"")+(i.runId===week?'<span class="tag newwk">New this week</span>':"");
+  var mover='<div class="mover" role="group" aria-label="Move this idea"><span class="lbl">Move to</span>'+STATUSES.map(function(x){return '<button type="button" class="sbtn" data-id="'+esc(i.id)+'" data-s="'+x[0]+'" aria-pressed="'+(st===x[0])+'"'+(canSave?"":" disabled")+">"+x[1]+"</button>"}).join("")+'<span class="saved">'+(canSave?(when?"Saved "+new Date(when).toLocaleDateString("en-GB",{day:"numeric",month:"short"}):""):'<a href="#settings">Add the save key</a> to move ideas')+"</span></div>";
+  var b="";
+  if(i.hook)b+='<div class="blk"><span class="k">Hook, first 2 seconds</span><div class="hook">&ldquo;'+esc(i.hook)+"&rdquo;</div></div>";
+  if(i.hooks&&i.hooks.length)b+='<div class="blk"><span class="k">Other hooks to try</span>'+list(i.hooks.map(function(h){return "“"+h+"”"}))+"</div>";
+  var beats=(i.beats&&i.beats.length)?'<div class="beats">'+i.beats.map(function(x){return '<div class="beat"><span class="t">'+esc(x.t)+"</span><span>"+esc(x.text)+"</span></div>"}).join("")+"</div>":'<p class="muted small">Not planned yet.</p>';
+  var right='<div class="blk"><span class="k">Why it scored</span>'+bars(i.scoreParts)+(i.why?'<p class="small">'+esc(i.why)+"</p>":"")+"</div>"+(i.onscreen?'<div class="blk"><span class="k">On-screen text</span><p class="small">'+esc(i.onscreen)+"</p></div>":"")+(i.length?'<div class="blk"><span class="k">Length</span><p class="small">'+esc(i.length)+"</p></div>":"");
+  b+='<div class="two"><div class="blk"><span class="k">Shot list</span>'+beats+'</div><div class="blk" style="gap:14px">'+right+"</div></div>";
+  if(i.caption)b+='<div class="blk"><span class="k">Caption</span><div class="caption">'+esc(i.caption)+'</div><button type="button" class="ghost copy" data-copy="'+esc(i.id)+'">Copy caption</button></div>';
+  var t="";if(i.variations&&i.variations.length)t+='<div class="blk"><span class="k">Spin-offs</span>'+list(i.variations)+"</div>";if(i.money&&i.money.length)t+='<div class="blk"><span class="k">Money</span>'+list(i.money)+"</div>";if(t)b+='<div class="two">'+t+"</div>";
+  t="";if(i.needs)t+='<div class="blk"><span class="k">What she\'d need</span><p class="small">'+esc(i.needs)+"</p></div>";if(i.sourceLink)t+='<div class="blk"><span class="k">Source</span><a href="'+esc(i.sourceLink)+'" target="_blank" rel="noopener" class="small" style="word-break:break-all">'+esc(i.sourceLink)+"</a></div>";if(t)b+='<div class="two">'+t+"</div>";
+  return '<details class="idea" data-id="'+esc(i.id)+'"><summary><span class="score '+scoreClass(i.score||0)+'">'+(i.score==null?"-":i.score)+'<small>SCORE</small></span><span class="it"><h3>'+esc(i.title)+'</h3><span class="meta">'+tags+'</span><span class="signal">'+esc(i.signal)+'</span></span><span class="statewrap"><span class="tag st-'+st+'">'+SLABEL[st]+'</span></span></summary><div class="ibody">'+mover+b+"</div></details>";
+}
+function renderIdeas(){
+  var open={};[].forEach.call(document.querySelectorAll("details.idea[open]"),function(d){open[d.dataset.id]=1});
+  renderTabs();
+  var shown=ideas.filter(function(i){var s=statusOf(i);return filter==="all"?true:filter==="active"?(s!=="published"&&s!=="parked"):filter==="week"?i.runId===week:s===filter}).filter(function(i){return !pillarF||i.pillar===pillarF});
+  shown.sort(function(a,b){return (b.score||0)-(a.score||0)});
+  $("count").textContent=ideas.length+" ideas in total";
+  $("ideas").innerHTML=shown.length?shown.map(card).join(""):'<div class="empty">Nothing here yet.</div>';
+  [].forEach.call(document.querySelectorAll("details.idea"),function(d){if(open[d.dataset.id])d.open=true});
+  $("keyBanner").hidden=!!key();
+}
+function renderRuns(){if(!runs.length){$("runs").innerHTML='<div class="empty">No runs yet.</div>';return}var r=runs[0];$("runs").innerHTML='<div class="run"><span class="eyebrow">'+esc(r.date)+"</span><p>"+esc(r.summary)+"</p>"+(r.sources&&r.sources.length?list(r.sources):"")+"</div>"}
+function renderInbox(){var p=inbox.filter(function(x){return !x.processed});$("inbox").innerHTML=p.length?'<p class="muted small">Waiting for the next run ('+p.length+")</p>"+p.map(function(x){return '<div class="inb"><span class="tag src" style="justify-self:start">'+esc(SRC[x.source]||x.source)+"</span>"+(x.link?'<a href="'+esc(x.link)+'" target="_blank" rel="noopener" style="font-size:.82rem;word-break:break-all">'+esc(x.link)+"</a>":"")+"<span>"+esc(x.note)+"</span></div>"}).join(""):""}
+
+function errText(e){return e&&e.code==="nokey"?"Add the save key first.":e&&e.code==="badkey"?"The save key was refused. Ask Tim for a fresh one.":e&&e.code==="conflict"?"Someone else saved at the same moment. Try again.":"Couldn't save. Check your signal and try again."}
+
+document.addEventListener("click",async function(e){
+  var t=e.target.closest(".tab");if(t){filter=t.dataset.f;renderIdeas();return}
+  var c=e.target.closest("[data-copy]");if(c){var i=ideas.find(function(x){return x.id===c.dataset.copy});try{await navigator.clipboard.writeText(i.caption);toast("Caption copied")}catch(err){toast("Press and hold the caption to copy it")}return}
+  var s=e.target.closest(".sbtn");if(!s||s.disabled)return;
+  var id=s.dataset.id, val=s.dataset.s, prev=statuses[id], at=new Date().toISOString();
+  statuses[id]={status:val,at:at};renderIdeas();
+  try{statuses=await writeJSON("statuses.json",function(cur){cur=cur||{};cur[id]={status:val,at:at};return cur},"Lucie: "+id+" to "+val);renderIdeas();toast("Saved as "+SLABEL[val])}
+  catch(err){if(prev)statuses[id]=prev;else delete statuses[id];renderIdeas();toast(errText(err))}
+});
+$("pillarSel").addEventListener("change",function(e){pillarF=e.target.value;renderIdeas()});
+$("dropForm").addEventListener("submit",async function(e){
+  e.preventDefault();var note=$("dNote").value.trim(),link=$("dLink").value.trim();
+  if(!note&&!link){$("dMsg").textContent="Add a link or a note first.";return}
+  $("dBtn").disabled=true;$("dMsg").textContent="Saving.";
+  var item={id:"i"+Date.now().toString(36),source:$("dSource").value,link:link,note:note,createdAt:new Date().toISOString(),processed:false};
+  try{inbox=await writeJSON("inbox.json",function(cur){cur=cur||[];cur.push(item);return cur},"Lucie: new idea drop");$("dNote").value="";$("dLink").value="";$("dMsg").textContent="Added. It'll be picked up in Monday's run.";renderInbox()}
+  catch(err){$("dMsg").textContent=errText(err)}
+  $("dBtn").disabled=false;
+});
+$("keySave").addEventListener("click",async function(){
+  var k=$("keyIn").value.trim();if(!k){$("keyMsg").textContent="Paste the key first.";return}
+  $("keyMsg").textContent="Checking.";
+  try{var r=await fetch("https://api.github.com/repos/"+CONFIG.owner+"/"+CONFIG.repo,{headers:{"Accept":"application/vnd.github+json","Authorization":"Bearer "+k}});var j=await r.json();
+    if(!r.ok||!(j.permissions&&j.permissions.push))throw 0;}
+  catch(err){$("keyMsg").textContent="That key doesn't have write access to this repo.";return}
+  if(!setKey(k)){memKey=k;$("keyMsg").textContent="Saved for this visit only (this browser blocks storage).";}else $("keyMsg").textContent="Saved on this device.";
+  $("keyIn").value="";renderIdeas();
+});
+$("keyClear").addEventListener("click",function(){setKey("");memKey="";$("keyMsg").textContent="Removed from this device.";renderIdeas()});
+
+(async function(){
+  var res=await Promise.all([readJSON("ideas.json",[]),readJSON("statuses.json",{}),readJSON("inbox.json",[]),readJSON("runs.json",[])]);
+  ideas=res[0]||[];statuses=res[1]||{};inbox=res[2]||[];runs=(res[3]||[]).sort(function(a,b){return (b.date||"").localeCompare(a.date||"")});
+  week=runs.length?runs[0].date:ideas.reduce(function(m,i){return i.runId>m?i.runId:m},"");
+  if(!ideas.length)$("ideas").innerHTML='<div class="empty">Couldn\'t load ideas. Reload the page.</div>';else renderIdeas();
+  renderRuns();renderInbox();
+  if(!CONFIG.owner){$("keySave").disabled=true;$("keyMsg").textContent="Saving works once this page is on GitHub Pages."}
+})();
+</script>
+</body>
+</html>
